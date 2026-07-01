@@ -1,0 +1,46 @@
+# Day 2 Mini Project: Custom Dataset Capture Pipeline
+
+## 1. Problem Definition
+
+The goal of this mini project is to build a custom image dataset collection pipeline using Raspberry Pi 5 and a webcam.
+
+For the safety monitoring project, the target detection task is helmet usage. Public datasets may not match our actual camera angle, lighting condition, distance, and background. Therefore, we collected our own dataset directly from the Raspberry Pi camera environment.
+
+## 2. Project Goal
+
+Build a capture tool that can:
+
+- preview webcam frames in real time
+- save images by class label
+- automatically create class folders
+- record image file names using timestamp and index
+- measure FPS and image resolution
+- save collection logs
+- collect at least 150 images for each class
+
+## 3. Target Classes
+
+The dataset has two classes:
+
+- helmet
+- no_helmet
+
+## 4. Hardware and Software Environment
+
+- Device: Raspberry Pi 5
+- OS: Ubuntu 24.04
+- Camera: HD 4MP WEBCAM
+- Language: Python
+- Library: OpenCV, NumPy
+- Resolution: 640 x 480
+- Target FPS: 30
+
+## 5. Dataset Structure
+
+The collected images are saved in the following structure:
+
+```text
+data/raw/
+├── helmet/
+└── no_helmet/
+```
