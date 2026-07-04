@@ -1,0 +1,14 @@
+# Do not upload raw image dataset
+data/raw/
+*.jpg
+*.jpeg
+*.png
+
+# Do not upload videos
+*.mp4
+*.avi
+*.mov
+
+# Python cache
+__pycache__/
+*.pyc
