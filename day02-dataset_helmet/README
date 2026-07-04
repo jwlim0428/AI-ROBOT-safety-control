@@ -1,10 +1,51 @@
-# Dataset
+# Day 02 - Helmet / No Helmet Dataset Collection
 
-The raw image dataset is not uploaded to this repository due to privacy and file size concerns.
+## Overview
 
-The dataset was collected locally using a webcam connected to Raspberry Pi.
+Day 02 focused on building a custom image dataset for helmet detection using a webcam connected to Raspberry Pi.
+
+The main goal was to collect image data for two classes:
+
+- `helmet`
+- `no_helmet`
+
+This dataset will later be used for computer vision-based safety monitoring, especially for detecting whether a worker is wearing a safety helmet.
+
+---
+
+## Goal
+
+The goal of this step was not only to capture images, but also to create a basic dataset collection pipeline.
+
+This included:
+
+1. Capturing images using a webcam
+2. Saving images into class-specific folders
+3. Recording capture metadata
+4. Checking whether the dataset was collected properly
+5. Preparing the dataset for future model training
+
+---
+
+## Dataset Notice
+
+The raw image dataset is **not uploaded** to this GitHub repository due to privacy and file size concerns.
+
+The original images may contain personal or environmental information, so only the following items are included:
+
+- dataset collection code
+- dataset inspection code
+- capture log
+- dataset structure description
+- dataset inspection result
+
+The actual image dataset is stored locally.
+
+---
 
 ## Dataset Summary
+
+The dataset was collected locally using a webcam connected to Raspberry Pi.
 
 | Class | Number of Images |
 |---|---:|
@@ -12,7 +53,11 @@ The dataset was collected locally using a webcam connected to Raspberry Pi.
 | no_helmet | 150 |
 | Total | 300 |
 
-## Local Directory Structure
+---
+
+## Local Dataset Structure
+
+The raw images were organized locally as follows:
 
 ```text
 data/raw/
@@ -20,3 +65,211 @@ data/raw/
 │   └── 150 images
 └── no_helmet/
     └── 150 images
+```
+
+However, the `data/raw/` folder is excluded from GitHub.
+
+---
+
+## Repository Structure
+
+```text
+day02-dataset_helmet/
+├── README.md
+├── capture_dataset.py
+├── inspect_dataset.py
+├── data/
+│   └── README.md
+├── logs/
+│   └── capture_log.csv
+└── results/
+    └── dataset_inspection_result.txt
+```
+
+---
+
+## Python Scripts
+
+This folder includes two Python scripts:
+
+1. `capture_dataset.py`
+2. `inspect_dataset.py`
+
+These scripts were used to collect and inspect the helmet/no_helmet dataset.
+
+---
+
+## 1. `capture_dataset.py`
+
+`capture_dataset.py` is a webcam-based image capture tool.
+
+It opens a camera connected to Raspberry Pi and saves captured images into class-specific folders.
+
+```text
+data/raw/
+├── helmet/
+└── no_helmet/
+```
+
+### Main Features
+
+- Opens a webcam using OpenCV
+- Captures images for two classes: `helmet` and `no_helmet`
+- Saves images into `data/raw/helmet` and `data/raw/no_helmet`
+- Supports manual capture using the `SPACE` key
+- Supports automatic capture mode using the `a` key
+- Allows class selection using number keys such as `1` and `2`
+- Displays current class, image count, FPS, brightness, and sharpness on the camera screen
+- Skips low-quality frames that are too blurry, too dark, or too bright
+- Records capture metadata in `logs/capture_log.csv`
+
+### Key Controls
+
+| Key | Function |
+|---|---|
+| `1`, `2`, ... | Select class |
+| `SPACE` | Save one image |
+| `a` | Turn automatic capture mode ON/OFF |
+| `q` | Quit |
+
+### Image Quality Check
+
+The script checks image quality using:
+
+- sharpness score
+- brightness score
+
+Frames are skipped if they are:
+
+- too blurry
+- too dark
+- too bright
+
+This helped reduce low-quality images during dataset collection.
+
+### Capture Log
+
+The script records capture information in:
+
+```text
+logs/capture_log.csv
+```
+
+The log includes:
+
+```text
+timestamp, class_name, file_path, width, height, target_fps,
+measured_fps, sharpness, brightness, status
+```
+
+This means the image collection process can be reviewed later through the log file.
+
+---
+
+## 2. `inspect_dataset.py`
+
+`inspect_dataset.py` is a dataset inspection tool.
+
+It checks whether the collected image dataset is properly organized and readable.
+
+The script reads images from:
+
+```text
+data/raw/
+├── helmet/
+└── no_helmet/
+```
+
+### Main Features
+
+- Counts the number of images in each class folder
+- Checks whether each image can be read successfully using OpenCV
+- Detects unreadable or corrupted image files
+- Prints the image size of the collected images
+- Checks whether each class has at least 150 images
+- Prints the total number of collected images
+
+### Example Output
+
+```text
+=== Dataset Inspection ===
+
+class: helmet
+count: 150
+bad_read: 0
+image sizes: [(640, 480)]
+status: OK
+
+class: no_helmet
+count: 150
+bad_read: 0
+image sizes: [(640, 480)]
+status: OK
+
+total images: 300
+```
+
+This script was used to verify that the dataset was successfully collected before moving on to model training.
+
+---
+
+## File Description
+
+| File | Description |
+|---|---|
+| `capture_dataset.py` | Captures helmet/no_helmet images using a webcam connected to Raspberry Pi |
+| `inspect_dataset.py` | Inspects the collected dataset by checking image count, readability, and image size |
+| `logs/capture_log.csv` | Stores metadata from the image capture process |
+| `data/README.md` | Explains why the raw image dataset is not uploaded to GitHub |
+| `results/dataset_inspection_result.txt` | Summarizes the dataset inspection result |
+
+---
+
+## How to Run
+
+### 1. Capture Images
+
+```bash
+python capture_dataset.py --camera 0
+```
+
+Optional settings:
+
+```bash
+python capture_dataset.py --camera 0 --width 640 --height 480 --fps 30
+```
+
+### 2. Inspect Dataset
+
+```bash
+python inspect_dataset.py
+```
+
+---
+
+## Result
+
+A total of 300 images were collected locally.
+
+- `helmet`: 150 images
+- `no_helmet`: 150 images
+- Total: 300 images
+
+The dataset inspection script confirmed that the dataset was organized by class and that the images could be read properly.
+
+---
+
+## Meaning of Day 02
+
+Day 02 was an important step because a computer vision model needs labeled image data before it can learn to classify safety conditions.
+
+Through this process, I learned how to:
+
+- collect image data using Raspberry Pi and a webcam
+- organize image data by class
+- use OpenCV for camera input
+- record metadata during data collection
+- inspect the dataset before model training
+- manage raw data carefully without exposing private image files on GitHub
+
+This step connects Raspberry Pi camera input with future AI model training for helmet detection.
