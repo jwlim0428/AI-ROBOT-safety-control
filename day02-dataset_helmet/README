@@ -1,0 +1,22 @@
+# Dataset
+
+The raw image dataset is not uploaded to this repository due to privacy and file size concerns.
+
+The dataset was collected locally using a webcam connected to Raspberry Pi.
+
+## Dataset Summary
+
+| Class | Number of Images |
+|---|---:|
+| helmet | 150 |
+| no_helmet | 150 |
+| Total | 300 |
+
+## Local Directory Structure
+
+```text
+data/raw/
+├── helmet/
+│   └── 150 images
+└── no_helmet/
+    └── 150 images
